@@ -1,41 +1,33 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import CreateToDo from "./CreateToDo";
-import { toDoSelector, toDoState } from "../atoms";
+import { categoryState, toDoSelector, toDoState } from "../atoms";
 import ToDo from "./ToDo";
+import React from "react";
 
 function ToDoList() {
-  // const value = useRecoilValue(toDoState);// atom의 value를 불러옴
-  // const modFn = useSetRecoilState(toDoState);// atom의 value를 변경해야 하는 경우
-  const toDos = useRecoilValue(toDoState);
-  const selectorOutput = useRecoilValue(toDoSelector);
-  //카테고리별로 구분해서 render 
-  const [toDo, doing, done] = useRecoilValue(toDoSelector);
+  // const [toDo, doing, done] = useRecoilValue(toDoSelector);
+  const toDos = useRecoilValue(toDoSelector);
+  const [category, setCategory] = useRecoilState(categoryState);
+  const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
+    setCategory(event.currentTarget.value);
+  }
+  console.log(category);
 
-  console.log(selectorOutput, '---todo---');
   return (
     <div>
       <h1>To Dos</h1>
       <hr />
+      {/* value={category}?  */}
+      <select value={category} onInput={onInput}>
+        <option value="TO_DO">To Do</option>
+        <option value="DOING">Doing</option>
+        <option value="DONE">Done</option>
+      </select>
       <CreateToDo />
-      <h2>TODO</h2>
-      <ul>
-        {toDo.map((toDo) => (
-          // <ToDo text={toDo.text} category={toDo.category} id={toDo.id} />
-          <ToDo key={toDo.id} {...toDo} />
-        ))}
-      </ul>
-      <h2>DOING</h2>
-      <ul>
-        {doing.map((toDo) => (
-          <ToDo key={toDo.id} {...toDo} />
-        ))}
-      </ul>
-      <h2>DONE</h2>
-      <ul>
-        {done.map((toDo) => (
-          <ToDo key={toDo.id} {...toDo} />
-        ))}
-      </ul>
+      {/* {category === "TO_DO" && toDo.map(toDo => <ToDo key={toDo.id} {...toDo} />)}
+      {category === "DOING" && doing.map(toDo => <ToDo key={toDo.id} {...toDo} />)}
+      {category === "DONE" && done.map(toDo => <ToDo key={toDo.id} {...toDo} />)} */}
+      {toDos.map(toDo => <ToDo key={toDo.id} {...toDo}/>)}
     </div>
   );
 }

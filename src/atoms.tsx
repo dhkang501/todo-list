@@ -18,10 +18,17 @@ export const toDoSelector = selector({
     key: "toDoSelector",
     get: ({ get }) => {
       const toDos = get(toDoState);
-      return [
-        toDos.filter((toDo) => toDo.category === "TO_DO"),
-        toDos.filter((toDo) => toDo.category === "DOING"),
-        toDos.filter((toDo) => toDo.category === "DONE"),
-      ];
+      const category = get(categoryState);
+      return toDos.filter((toDo) => toDo.category === category)
+        //카테고리에 따라 하나의 배열만 반환하도록 수정
+        // toDos.filter((toDo) => toDo.category === "TO_DO"),
+        // toDos.filter((toDo) => toDo.category === "DOING"),
+        // toDos.filter((toDo) => toDo.category === "DONE"),
     },
+});
+
+//사용자가 현재 선택한 카테고리 저장, 원하는 카테고리의 toDo만 보이게,
+export const categoryState = atom({
+  key: "category",
+  default: "TO_DO",
 });
