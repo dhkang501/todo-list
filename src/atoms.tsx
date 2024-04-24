@@ -1,9 +1,17 @@
 import { atom, selector } from "recoil";
 
+export enum Categories {
+  // 0,1,2 반환함
+  // "TO_DO", "DOING", "DONE",
+  "TO_DO" = "TO_DO", 
+  "DOING" = "DOING", 
+  "DONE" ="DONE",
+}
+
 export interface IToDo {
   text: string;
   id: number;
-  category: "TO_DO" | "DOING" | "DONE";
+  category: Categories;
 }
 
 //"TO_DO" | "DOING" | "DONE" 모두가 섞여서 들어가 있음
@@ -28,7 +36,7 @@ export const toDoSelector = selector({
 });
 
 //사용자가 현재 선택한 카테고리 저장, 원하는 카테고리의 toDo만 보이게,
-export const categoryState = atom({
+export const categoryState = atom<Categories>({
   key: "category",
-  default: "TO_DO",
+  default: Categories.TO_DO,
 });

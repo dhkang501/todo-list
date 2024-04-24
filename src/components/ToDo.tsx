@@ -1,5 +1,5 @@
 import React from "react";
-import { IToDo, toDoState } from "../atoms";
+import { Categories, IToDo, toDoState } from "../atoms";
 import { useSetRecoilState } from "recoil";
 
 function ToDo({text, category, id}:IToDo) {
@@ -34,15 +34,16 @@ function ToDo({text, category, id}:IToDo) {
     return (
         <li>
             <span>{text}</span>
-            {category !== "DOING" && (
-                <button name="DOING" onClick={onClick}>Doing</button> 
+            {category !== Categories.DOING && (
+                // enum은 일련의 숫자를 문자로 표현해준다. name은 숫자여선 안된다
+                <button name={Categories.DOING} onClick={onClick}>Doing</button> 
                 // <button onClick={() => onclick("DOING")}>Doing</button>
             )}
-            {category !== "TO_DO" && (
-                <button name="TO_DO" onClick={onClick}>To Do</button>
+            {category !== Categories.TO_DO && (
+                <button name={Categories.TO_DO} onClick={onClick}>To Do</button>
             )}
-            {category !== "DONE" && (
-                <button name="DONE" onClick={onClick}>Done</button>
+            {category !== Categories.DONE && (
+                <button name={Categories.DONE} onClick={onClick}>Done</button>
             )}
         </li>
     );
